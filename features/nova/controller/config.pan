@@ -134,3 +134,9 @@ prefix '/software/components/filecopy/services';
   ),
   'restart' , '/root/init-nova.sh',
 );
+
+include if (OS_HA) {
+    'features/nova/controller/ha';
+} else {
+    null;
+};

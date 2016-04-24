@@ -88,3 +88,9 @@ prefix '/software/components/filecopy/services';
   ),
   'restart' , '/root/init-ceilometer.sh',
 );
+
+include if (OS_HA) {
+    'features/ceilometer/ha';
+} else {
+    null;
+};

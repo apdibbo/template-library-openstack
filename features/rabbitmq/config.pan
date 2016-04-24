@@ -31,3 +31,9 @@ prefix '/software/components/filecopy/services';
     ),
     'restart' , './root/init-rabbitmq.sh',
 );
+
+include if (OS_HA) {
+    'features/rabbitmq/ha';
+} else {
+    null;
+};

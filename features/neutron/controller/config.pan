@@ -107,3 +107,9 @@ prefix '/software/components/filecopy/services';
   ),
   'restart' , '/root/init-neutron.sh',
 );
+
+include if (OS_HA) {
+    'features/neutron/controller/ha';
+} else {
+    null;
+};

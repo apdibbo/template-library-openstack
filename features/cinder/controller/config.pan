@@ -74,3 +74,9 @@ prefix '/software/components/filecopy/services';
   ),
   'restart' , '/root/init-cinder.sh',
 );
+
+include if (OS_HA) {
+    'features/cinder/controller/ha';
+} else {
+    null;
+};

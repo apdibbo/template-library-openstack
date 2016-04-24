@@ -101,6 +101,7 @@ include if (OS_CEPH) {
     'features/glance/file';
 };
 
+
 include 'components/filecopy/config';
 prefix '/software/components/filecopy/services';
 '{/root/init-glance.sh}' = dict(
@@ -114,3 +115,9 @@ prefix '/software/components/filecopy/services';
   ),
   'restart' , '/root/init-glance.sh',
 );
+
+include if (OS_HA) {
+    'features/glance/ha';
+} else {
+    null;
+};
