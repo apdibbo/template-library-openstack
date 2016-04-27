@@ -31,6 +31,10 @@ prefix '/software/components/accounts';
 'kept_users/ceilometer' = '';
 'kept_groups/ceilometer' = '';
 
+# Aodh user
+'kept_users/aodh' = '';
+'kept_groups/aodh' = '';
+
 # Heat user
 'kept_users/heat' = '';
 'kept_groups/heat' = '';

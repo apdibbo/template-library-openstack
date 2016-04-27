@@ -192,7 +192,20 @@ variable OS_CEILOMETER_DB_USERNAME ?= 'ceilometer';
 variable OS_CEILOMETER_DB_PASSWORD ?= 'CEILOMETER_DBPASS';
 variable OS_CEILOMETER_USERNAME ?= 'ceilometer';
 variable OS_CEILOMETER_PASSWORD ?= 'CEILOMETER_PASS';
-variable OS_CEILOMETER_PORT ?= 8777;
+variable OS_CEILOMETER_PORT ?= 8042;
+
+############################
+# Aodh specific variable #
+############################
+variable OS_AODH_CONTROLLER_HOST ?= OS_CONTROLLER_HOST;
+variable OS_AODH_CONTROLLER_PROTOCOL ?= OS_CONTROLLER_PROTOCOL;
+variable OS_AODH_DB_HOST ?= OS_DB_HOST;
+variable OS_AODH_ENABLED ?= false;
+variable OS_AODHR_DB_USERNAME ?= 'aodh';
+variable OS_AODH_DB_PASSWORD ?= 'AODH_DBPASS';
+variable OS_AODH_USERNAME ?= 'aodh';
+variable OS_AODH_PASSWORD ?= 'AODH_PASS';
+variable OS_AODH_PORT ?= 8777;
 
 ##############################
 # RabbitMQ specific variable #
