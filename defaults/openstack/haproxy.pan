@@ -316,3 +316,28 @@ prefix '/software/components/metaconfig/services/{/etc/haproxy/haproxy.cfg}';
         'weight', 100,),
     'servers', OS_CEILOMETER_SERVERS,)
 );
+
+########
+# Aodh #
+########
+
+
+prefix '/software/components/metaconfig/services/{/etc/haproxy/haproxy.cfg}';
+'module' = 'haproxy';
+'contents/vhosts/' = append(dict('name' , 'aodh',
+    'port' , OS_AODH_PORT,
+    'bind' ,  '*:'+to_string(OS_AODH_PORT),
+    'config' , dict(
+        'mode' , 'http',
+        'balance' , 'source',),
+    'options' , list('tcpka','httplog','ssl-hello-chk','tcp-check'),
+    'defaultoptions',dict(
+        'inter', '2s',
+        'downinter', '5s',
+        'rise', 3,
+        'fall', 2,
+        'slowstart', '60s',
+        'maxqueue', 128,
+        'weight', 100,),
+    'servers', OS_AODH_SERVERS,)
+);

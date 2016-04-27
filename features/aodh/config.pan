@@ -1,4 +1,4 @@
-unique template features/aodh/config.pan
+unique template features/aodh/config;
 
 # Load some useful functions
 include 'defaults/openstack/functions';
@@ -59,7 +59,7 @@ prefix '/software/components/metaconfig/services/{/etc/aodh/aodh.conf}';
 # [keystone_authtoken] section
 'contents/keystone_authtoken' = openstack_load_config(OS_AUTH_CLIENT_CONFIG);
 'contents/keystone_authtoken/username' = OS_AODH_USERNAME;
-'contents/keystone_authtoken/password' = OS_AODHR_PASSWORD;
+'contents/keystone_authtoken/password' = OS_AODH_PASSWORD;
 
 'contents/service_credentials/os_auth_url' = OS_KEYSTONE_CONTROLLER_PROTOCOL + '://' + OS_KEYSTONE_CONTROLLER_HOST + ':5000/v2.0';
 'contents/service_credentials/username' = OS_AODH_USERNAME;
@@ -67,3 +67,9 @@ prefix '/software/components/metaconfig/services/{/etc/aodh/aodh.conf}';
 'contents/service_credentials/os_password' = OS_AODH_PASSWORD;
 'contents/service_credentials/os_endpoint_type' = 'internalURL';
 'contents/service_credentials/os_region_name' = OS_REGION_NAME;
+
+include if (OS_HA) {
+    'features/glance/ha';
+} else {
+    null;
+};
