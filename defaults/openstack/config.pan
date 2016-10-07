@@ -17,6 +17,12 @@ variable PRIMARY_IP ?= DB_IP[escape(FULL_HOSTNAME)];
 }
 final variable OPENSTACK_HA ?= false;
 
+@use{
+  type = dict
+  note = A dictionary of Openstack Servers and IP Addresses
+}
+final variable OPENSTACK_SERVERS ?= error('OPENSTACK_SERVERS must be set');
+
 ############################
 # Active SSL configuration #
 ############################
@@ -154,11 +160,10 @@ final variable OPENSTACK_DB_ADMIN_PASSWORD ?= 'root';
 # Glance specific variable #
 ############################
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the glance controller
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Glance
 }
-final variable OPENSTACK_GLANCE_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
+final variable OPENSTACK_GLANCE_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = string
   default = http
@@ -218,11 +223,10 @@ final variable OPENSTACK_GLANCE_PORT ?= 9292;
 # Heat specific variable #
 ############################
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the heat controller
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Heat
 }
-final variable OPENSTACK_HEAT_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
+final variable OPENSTACK_HEAT_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = string
   default = http
@@ -307,11 +311,10 @@ final variable OPENSTACK_HEAT_PORTS ?= list(OPENSTACK_HEAT_PORT,OPENSTACK_HEAT_C
 # Keystone specific variable #
 ##############################
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the keystone controller
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Keystone
 }
-final variable OPENSTACK_KEYSTONE_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
+final variable OPENSTACK_KEYSTONE_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = string
   default = http
@@ -407,17 +410,10 @@ final variable OPENSTACK_MONGODB_DBPATH ?= '/var/mongodb';
 # Nova specific variable #
 ##########################
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the nova controller
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Nova
 }
-final variable OPENSTACK_NOVA_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
-@use{
-  type = hostname
-  default = OPENSTACK_NOVA_CONTROLLER_HOST
-  note = The host to use as the novnc proxy
-}
-final variable OPENSTACK_NOVA_VNC_HOST ?= OPENSTACK_NOVA_CONTROLLER_HOST;
+final variable OPENSTACK_NOVA_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = string
   default = http
@@ -514,17 +510,15 @@ final variable OPENSTACK_NOVA_PORTS ?= list(OPENSTACK_NOVA_OSAPI_PORT, OPENSTACK
 # Neutron specific variable #
 #############################
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the neutron controller
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Neutron
 }
-final variable OPENSTACK_NEUTRON_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
+final variable OPENSTACK_NEUTRON_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = string
-  default = OPENSTACK_NEUTRON_CONTROLLER_HOST
   note = The host to use a network node for Neutron
 }
-final variable OPENSTACK_NEUTRON_NETWORK_PROVIDER ?= OPENSTACK_NEUTRON_CONTROLLER_HOST;
+final variable OPENSTACK_NEUTRON_NETWORK_PROVIDER ?= openstack_get_controller_host(OPENSTACK_NEUTRON_SERVERS);
 @use{
   type = string
   default = http
@@ -638,7 +632,11 @@ final variable OPENSTACK_NEUTRON_DEFAULT_NAMESERVER ?= '192.168.0.1';
 ############################
 # Cinder specific variable #
 ############################
-
+@use{
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Cinder
+}
+final variable OPENSTACK_CINDER_SERVERS ?= OPENSTACK_SERVERS;
 # Cinder Controller
 @use{
   type = boolean
@@ -646,12 +644,6 @@ final variable OPENSTACK_NEUTRON_DEFAULT_NAMESERVER ?= '192.168.0.1';
   note = Whether to enable the cinder component
 }
 final variable OPENSTACK_CINDER_ENABLED ?= false;
-@use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the cinder controller
-}
-final variable OPENSTACK_CINDER_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
 @use{
   type = string
   default = http
@@ -693,10 +685,9 @@ final variable OPENSTACK_CINDER_PASSWORD ?= 'CINDER_PASS';
 # Cinder Storage
 @use{
   type = hostname
-  default = OPENSTACK_CINDER_CONTROLLER_HOST
   note = The host to be used for cinder storage
 }
-final variable OPENSTACK_CINDER_STORAGE_HOST ?= OPENSTACK_CINDER_CONTROLLER_HOST;
+final variable OPENSTACK_CINDER_STORAGE_HOST ?= openstack_get_controller_host(OPENSTACK_CINDER_SERVERS);
 @use{
   type = string
   default = lvm
@@ -714,11 +705,10 @@ final variable OPENSTACK_CINDER_PORT ?= 8776;
 # Ceilometer specific variable #
 ############################
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for the ceilometer controller
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Ceilometer
 }
-final variable OPENSTACK_CEILOMETER_CONTROLLER_HOST ?= OPENSTACK_CONTROLLER_HOST;
+final variable OPENSTACK_CEILOMETER_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = string
   default = http
@@ -780,12 +770,6 @@ final variable OPENSTACK_CEILOMETER_PORT ?= 8777;
 ##############################
 @use{
   type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for rabbitmq
-}
-final variable OPENSTACK_RABBITMQ_HOST ?= OPENSTACK_CONTROLLER_HOST;
-@use{
-  type = string
   default =
   note = The port to be used for rabbitmq
 }
@@ -807,11 +791,10 @@ final variable OPENSTACK_RABBITMQ_PASSWORD ?= 'RABBIT_PASS';
 # Horizon #
 ###########
 @use{
-  type = string
-  default = OPENSTACK_CONTROLLER_HOST
-  note = The hostname to be used for horizon
+  type = dict
+  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Horizon
 }
-final variable OPENSTACK_HORIZON_HOST ?= OPENSTACK_CONTROLLER_HOST;
+final variable OPENSTACK_HORIZON_SERVERS ?= OPENSTACK_SERVERS;
 @use{
   type = long
   default = 80
@@ -872,10 +855,9 @@ final variable OPENSTACK_HORIZON_MULTIDOMAIN_ENABLED ?= {
 ##############################
 @use{
   type = hostname
-  default = OPENSTACK_NOVA_CONTROLLER_HOST
   note = the host to use for Metadata
 }
-final variable OPENSTACK_METADATA_HOST ?= OPENSTACK_NOVA_CONTROLLER_HOST;
+final variable OPENSTACK_METADATA_HOST ?= openstack_get_controller_host(OPENSTACK_NOVA_SERVERS);
 
 ###########################
 # CEPH Specific Variables #
@@ -1031,50 +1013,14 @@ final variable OPENSTACK_KEEPALIVED_ROUTER_ID ?= if (OPENSTACK_HA) {error('OPENS
   note = The host to use as the master loadbalancer in active passive modes
 }
 final variable OPENSTACK_LOADBALANCER_MASTER ?= if (OPENSTACK_HA) {error('OPENSTACK_LOADBALANCER_MASTER must be set for high availability');} else {null;};
-@use{
-  type = dict
-  note = A dictionary of Openstack Servers and IP Addresses
-}
-final variable OPENSTACK_SERVERS ?= if (OPENSTACK_HA) {error('OPENSTACK_SERVERS must be set for high availability');} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Keystone
-}
-final variable OPENSTACK_KEYSTONE_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Nova
-}
-final variable OPENSTACK_NOVA_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Neutron
-}
-final variable OPENSTACK_NEUTRON_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Cinder
-}
-final variable OPENSTACK_CINDER_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Ceilometer
-}
-final variable OPENSTACK_CEILOMETER_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Heat
-}
-final variable OPENSTACK_HEAT_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Glance
-}
-final variable OPENSTACK_GLANCE_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
-@use{
-  type = dict
-  note = A dictionary with the hostname as the key and the IP address as the value to be used by HAProxy for Horizon
-}
-final variable OPENSTACK_HORIZON_SERVERS ?= if (OPENSTACK_HA) {OPENSTACK_SERVERS;} else {null;};
+
+
+
+
+
+
+
+
+
 
 include 'defaults/openstack/dicts';

@@ -27,7 +27,7 @@ prefix '/software/components/metaconfig/services/{/etc/openstack-dashboard/local
 'contents/multidomain' = OPENSTACK_HORIZON_MULTIDOMAIN_ENABLED;
 'contents/default_domain'= OPENSTACK_HORIZON_DEFAULT_DOMAIN;
 'contents/keystone/protocol' = OPENSTACK_KEYSTONE_CONTROLLER_PROTOCOL;
-'contents/keystone/host' = OPENSTACK_KEYSTONE_CONTROLLER_HOST;
+'contents/keystone/host' = openstack_get_controller_host(OPENSTACK_KEYSTONE_SERVERS);
 'contents/keystone/api_version' = OPENSTACK_HORIZON_KEYSTONE_API_VERSION;
 'contents/keystone/port' = 5000;
 'contents/secret_key' = OPENSTACK_HORIZON_SECRET_KEY;
