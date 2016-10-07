@@ -8,7 +8,7 @@ include 'defaults/openstack/schema/types';
 }
 type openstack_keystone_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_KEYSTONE_DB* variables')
     'memcache' : openstack_keystone_memcache
     'revoke' : openstack_keystone_revoke
     'token' : openstack_keystone_token
@@ -20,7 +20,7 @@ type openstack_keystone_config = extensible {
 }
 type openstack_ceilometer_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_CEILOMETER_DB* variables')
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
     'service_credentials' : openstack_service_credentials
@@ -32,7 +32,7 @@ type openstack_ceilometer_config = extensible {
 }
 type openstack_cinder_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_CINDER_DB* variables')
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
 };
@@ -43,7 +43,7 @@ type openstack_cinder_config = extensible {
 }
 type openstack_glance_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_GLANCE_DB* variables')
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
 };
@@ -54,7 +54,7 @@ type openstack_glance_config = extensible {
 }
 type openstack_heat_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_HEAT_DB* variables')
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
 };
@@ -65,7 +65,7 @@ type openstack_heat_config = extensible {
 }
 type openstack_nova_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_NOVA_DB* variables')
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
 };
@@ -85,7 +85,7 @@ type openstack_nova_compute_config = extensible {
 }
 type openstack_neutron_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
-    'database' : openstack_database
+    'database' : openstack_database = error('Database Not Configured, Please set the OPENSTACK_NEUTRON_DB* variables')
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
 };
