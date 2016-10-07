@@ -389,7 +389,7 @@ final variable OPENSTACK_KEYSTONE_TOKEN_DRIVER ?= 'memcache';
   default = localhost:11211
   note = A dictionary of hosts and ports to use for memcached
 }
-final variable OPENSTACK_MEMCACHE_HOST ?= dict('localhost','11211');
+final variable OPENSTACK_MEMCACHE_HOSTS ?= dict('localhost','11211');
 
 #############################
 # MongoDB specfic variable #
@@ -768,12 +768,19 @@ final variable OPENSTACK_CEILOMETER_PORT ?= 8777;
 ##############################
 # RabbitMQ specific variable #
 ##############################
+
 @use{
   type = string
   default =
   note = The port to be used for rabbitmq
 }
 final variable OPENSTACK_RABBITMQ_PORT ?= 5672;
+@use{
+  type = list
+  default = OPENSTACK_RABBITMQ_HOST
+  note = This is a list of hosts to be used for RabbitMQ
+}
+final variable OPENSTACK_RABBITMQ_HOSTS ?= dict('localhost',OPENSTACK_RABBITMQ_PORT);
 @use{
   type = string
   default = openstack
@@ -786,6 +793,11 @@ final variable OPENSTACK_RABBITMQ_USERNAME ?= 'openstack';
   note = The password to use to connect to rabbitmq
 }
 final variable OPENSTACK_RABBITMQ_PASSWORD ?= 'RABBIT_PASS';
+@use{
+  type = string
+  note = The secret to be used for HA RabbitMQ Cluster
+}
+final variable OPENSTACK_RABBITMQ_CLUSTER_SECRET ?= if (OPENSTACK_HA) {error('OPENSTACK_RABBITMQ_CLUSTER_SECRET must be set for high availability');} else {null;};
 
 ###########
 # Horizon #
@@ -981,23 +993,6 @@ final variable OPENSTACK_SNMPD_IP ?= PRIMARY_IP;
 # HA Specific Variables #
 #########################
 
-@use{
-  type = string
-  note = The secret to be used for HA RabbitMQ Cluster
-}
-final variable OPENSTACK_RABBITMQ_CLUSTER_SECRET ?= if (OPENSTACK_HA) {error('OPENSTACK_RABBITMQ_CLUSTER_SECRET must be set for high availability');} else {null;};
-@use{
-  type = list
-  default = OPENSTACK_RABBITMQ_HOST
-  note = This is a list of hosts to be used for RabbitMQ
-}
-final variable OPENSTACK_RABBITMQ_HOSTS ?= dict(OPENSTACK_RABBITMQ_HOST,OPENSTACK_RABBITMQ_PORT);
-@use{
-  type = list
-  default = OPENSTACK_MEMCACHE_HOST
-  note = This is a list of hosts to be used for Memcached
-}
-final variable OPENSTACK_MEMCACHE_HOSTS ?= dict(OPENSTACK_MEMCACHE_HOST,OPENSTACK_MEMCACHE_PORT);
 @use{
   type = ipaddress
   note = The floating ip address to use for keepalived
