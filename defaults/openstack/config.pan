@@ -773,7 +773,7 @@ final variable OPENSTACK_CEILOMETER_PORT ?= 8777;
   default =
   note = The port to be used for rabbitmq
 }
-final variable OPENSTACK_RABBITMQ_HOST ?= 5672;
+final variable OPENSTACK_RABBITMQ_PORT ?= 5672;
 @use{
   type = string
   default = openstack
