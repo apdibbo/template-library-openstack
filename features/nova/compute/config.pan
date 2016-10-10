@@ -42,7 +42,7 @@ prefix '/software/components/metaconfig/services/{/etc/nova/nova.conf}';
 'contents/DEFAULT/security_group_api' = 'neutron';
 'contents/DEFAULT/linuxnet_interface_driver' = 'nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver';
 'contents/DEFAULT/firewall_driver' = 'nova.virt.firewall.NoopFirewallDriver';
-'contents/DEFAULT/resume_guests_state_on_host_boot' = if (OS_NOVA_RESUME_VM_ON_BOOT) {
+'contents/DEFAULT/resume_guests_state_on_host_boot' = if (OPENSTACK_NOVA_RESUME_VM_ON_BOOT) {
   'True';
 } else {
   null;
@@ -98,7 +98,7 @@ prefix '/software/components/metaconfig/services/{/etc/nova/nova.conf}';
   '%s:%s',
   openstack_generate_uri(
     OPENSTACK_NOVA_VNC_PROTOCOL,
-    openstack_get_controller_host(OPENSTACK_NOVA_SERVERS) ,
+    OPENSTACK_NOVA_SERVERS ,
     6080
   ),
   'vnc_auto.html'
@@ -107,7 +107,7 @@ prefix '/software/components/metaconfig/services/{/etc/nova/nova.conf}';
   '%s:%s',
   openstack_generate_uri(
     OPENSTACK_NOVA_VNC_PROTOCOL,
-    openstack_get_controller_host(OPENSTACK_NOVA_SERVERS),
+    OPENSTACK_NOVA_SERVERS,
     6081
   ),
   'console'

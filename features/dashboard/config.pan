@@ -22,7 +22,7 @@ prefix '/software/components/metaconfig/services/{/etc/openstack-dashboard/local
 'daemons/httpd' = 'restart';
 
 'contents/allowed' = OPENSTACK_HORIZON_ALLOWED_HOSTS;
-'contents/host' = OPENSTACK_HORIZON_HOST;
+'contents/host' = openstack_get_controller_host(OPENSTACK_HORIZON_SERVERS);
 'contents/role' = OPENSTACK_HORIZON_DEFAULT_ROLE;
 'contents/multidomain' = OPENSTACK_HORIZON_MULTIDOMAIN_ENABLED;
 'contents/default_domain'= OPENSTACK_HORIZON_DEFAULT_DOMAIN;

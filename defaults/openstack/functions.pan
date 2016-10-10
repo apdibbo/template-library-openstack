@@ -111,7 +111,7 @@ function openstack_generate_uri = {
   if (is_dict(ARGV[1])) {
     dict_of_hosts = ARGV[1];
   } else {
-    error('openstack_generate_uri needs a list as an argument');
+    error('openstack_generate_uri needs a dict as an argument');
   };
   protocol = ARGV[0];
   port = ARGV[2];

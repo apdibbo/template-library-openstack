@@ -55,7 +55,8 @@ prefix '/software/components/metaconfig/services/{/etc/neutron/neutron.conf}';
     OPENSTACK_NOVA_SERVERS,
     8774
   ),
-  'v2';
+  'v2',
+);
 'contents/DEFAULT/auth_strategy' = 'keystone';
 'contents/DEFAULT/notification_driver' = 'messagingv2';
 'contents/DEFAULT/ssl_cert_file' = if ( OPENSTACK_SSL ) {
