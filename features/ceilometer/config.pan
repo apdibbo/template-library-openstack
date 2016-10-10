@@ -97,7 +97,7 @@ prefix '/software/components/filecopy/services';
   'config', format(
     file_contents('features/ceilometer/init-ceilometer.sh'),
     OPENSTACK_INIT_SCRIPT_GENERAL,
-    OPENSTACK_CEILOMETER_SERVERS,
+    openstack_get_controller_host(OPENSTACK_CEILOMETER_SERVERS),
     OPENSTACK_CEILOMETER_DB_HOST,
     OPENSTACK_CEILOMETER_DB_USERNAME,
     OPENSTACK_CEILOMETER_DB_PASSWORD,

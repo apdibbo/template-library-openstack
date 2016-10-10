@@ -1,5 +1,7 @@
 unique template defaults/openstack/config;
 
+include 'defaults/openstack/functions';
+
 ##################################
 # Define site specific variables #
 ##################################
@@ -445,6 +447,12 @@ final variable OPENSTACK_NOVA_RAM_RATIO ?= 1.0;
 }
 final variable OPENSTACK_NOVA_VIRT_TYPE ?= 'kvm';
 @use{
+  type = string
+  default = True
+  note = Whether Nova resumes VMs
+}
+final variable OPENSTACK_NOVA_RESUME_VM_ON_BOOT ?= 'True';
+@use{
   type = hostname
   default = OPENSTACK_DB_HOST
   note = The host used for the Nova database
@@ -880,6 +888,18 @@ final variable OPENSTACK_METADATA_HOST ?= openstack_get_controller_host(OPENSTAC
   note = Whether to enable ceph or not
 }
 final variable OPENSTACK_CEPH ?= false;
+@use{
+  type = boolean
+  default = false
+  note = Whether to enable ceph for glance or not
+}
+final variable OPENSTACK_CEPH_GLANCE ?= OPENSTACK_CEPH;
+@use{
+  type = boolean
+  default = false
+  note = Whether to enable ceph for cinder or not
+}
+final variable OPENSTACK_CEPH_CINDER ?= OPENSTACK_CEPH;
 @use{
   type = string
   default = images
