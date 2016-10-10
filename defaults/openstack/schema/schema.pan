@@ -70,6 +70,15 @@ type openstack_nova_config = extensible {
     'keystone_authtoken' : openstack_keystone_authtoken
 };
 
+@documentation {
+    list of nova configuration sections
+}
+type openstack_nova_compute_config = extensible {
+    'DEFAULT' : openstack_DEFAULTS
+    'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
+    'keystone_authtoken' : openstack_keystone_authtoken
+};
+
 
 @documentation {
     list of neutron configuration sections
@@ -77,6 +86,15 @@ type openstack_nova_config = extensible {
 type openstack_neutron_config = extensible {
     'DEFAULT' : openstack_DEFAULTS
     'database' : openstack_database
+    'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
+    'keystone_authtoken' : openstack_keystone_authtoken
+};
+
+@documentation {
+    list of neutron configuration sections
+}
+type openstack_neutron_compute_config = extensible {
+    'DEFAULT' : openstack_DEFAULTS
     'oslo_messaging_rabbit' : openstack_oslo_messaging_rabbit
     'keystone_authtoken' : openstack_keystone_authtoken
 };

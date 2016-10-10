@@ -24,7 +24,7 @@ prefix '/software/components/chkconfig/service';
 'openstack-nova-compute/on' = '';
 'openstack-nova-compute/startstop' = true;
 
-bind '/software/components/metaconfig/services/{/etc/nova/nova.conf}/contents' = openstack_nova_config;
+bind '/software/components/metaconfig/services/{/etc/nova/nova.conf}/contents' = openstack_nova_compute_config;
 
 # Configuration file for nova
 include 'components/metaconfig/config';
